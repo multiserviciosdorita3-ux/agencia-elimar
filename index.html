@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agencia de Viajes Elimar</title>
+<title>Agencia Elimar</title>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
     <div class="logo">✈️ Agencia Elimar</div>
 
@@ -25,60 +24,46 @@
     </nav>
 </header>
 
-<!-- HERO -->
 <section class="hero" id="inicio">
     <div>
         <h1>Viaja sin límites</h1>
-        <p>Descubre el mundo con Agencia Elimar</p>
+        <p>Descubre el mundo</p>
         <a href="#" onclick="abrirModalGeneral()" class="btn">Explorar paquetes</a>
     </div>
 </section>
 
-<!-- DESTINOS -->
 <section class="section oculto" id="destinos">
-    <h2 class="titulo">Destinos populares</h2>
+    <h2 class="titulo">Destinos</h2>
     <div class="grid" id="contenedor-destinos"></div>
 </section>
 
-<!-- SERVICIOS -->
 <section class="section oculto" id="servicios">
-    <h2 class="titulo">Servicios que brindamos</h2>
+    <h2 class="titulo">Servicios</h2>
     <div class="grid" id="contenedor-servicios"></div>
 </section>
 
-<!-- CONTACTO -->
 <section class="section oculto" id="contacto">
-    <h2 class="titulo">Contáctanos</h2>
+    <h2 class="titulo">Contacto</h2>
 
     <div class="contacto">
         <p>📞 912139525</p>
-        <p>📍 Guadalupe</p>
-
-        <a href="https://wa.me/51912139525?text=Hola,%20vengo%20de%20la%20web%20de%20Agencia%20Elimar,%20quiero%20información" 
-           class="btn" target="_blank">
-        WhatsApp
-        </a>
+        <a href="https://wa.me/51912139525" class="btn">WhatsApp</a>
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-    <p>&copy; 2026 Agencia Elimar</p>
+    <p>Agencia Elimar</p>
 </footer>
 
-<!-- BOTÓN WHATSAPP -->
-<a href="https://wa.me/51912139525?text=Hola,%20quiero%20información" 
-   class="whatsapp">💬</a>
+<a href="https://wa.me/51912139525" class="whatsapp">💬</a>
 
-<!-- MODAL PAQUETES -->
+<!-- MODAL -->
 <div id="modal" class="modal">
     <div class="modal-box" id="modal-box"></div>
 </div>
 
-<!-- DATA -->
 <script src="data.js"></script>
 
-<!-- JS -->
 <script>
 
 /* DESTINOS */
@@ -91,11 +76,6 @@ destinos.forEach(function(d){
             <div class="card-content">
                 <h3>${d.titulo}</h3>
                 <p>${d.descripcion}</p>
-
-                <a href="https://wa.me/51912139525?text=Hola,%20me%20interesa%20${encodeURIComponent(d.titulo)}" 
-                   target="_blank" class="btn">
-                   Consultar
-                </a>
             </div>
         </div>
     `;
@@ -126,11 +106,9 @@ function abrirModalGeneral(){
     paquetes.forEach(function(p){
 
         var galeria = "";
-        if(p.galeria){
-            p.galeria.forEach(function(img){
-                galeria += `<img src="${img}">`;
-            });
-        }
+        p.galeria.forEach(function(img){
+            galeria += `<img src="${img}">`;
+        });
 
         contenido += `
             <div style="margin-bottom:30px;">
@@ -146,7 +124,7 @@ function abrirModalGeneral(){
                 <h4>📸 Más imágenes</h4>
                 ${galeria}
 
-                <a href="https://wa.me/51912139525?text=Hola,%20quiero%20el%20paquete%20${encodeURIComponent(p.titulo)}" 
+                <a href="https://wa.me/51912139525?text=Hola quiero ${encodeURIComponent(p.titulo)}" 
                    class="btn" target="_blank">
                    Reservar
                 </a>
@@ -165,17 +143,6 @@ document.addEventListener("click", function(e){
     }
 });
 
-/* SCROLL */
-var elementos = document.querySelectorAll('.oculto');
-
-window.addEventListener('scroll',function(){
-    elementos.forEach(function(el){
-        if(el.getBoundingClientRect().top < window.innerHeight - 100){
-            el.classList.add('visible');
-        }
-    });
-});
-
 /* MENU */
 var toggle = document.getElementById("menu-toggle");
 var menu = document.getElementById("menu");
@@ -184,7 +151,7 @@ toggle.addEventListener("click",function(){
     menu.classList.toggle("active");
 });
 
-/* ENTRADA */
+/* ANIMACION */
 window.addEventListener("load",function(){
     document.body.classList.add("visible");
 });
