@@ -1,90 +1,31 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agencia Elimar</title>
+<script type="module">
 
-<link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-
-<header>
-    <div class="logo">✈️ Agencia Elimar</div>
-
-    <div class="menu-toggle" id="menu-toggle">☰</div>
-
-    <nav id="menu">
-        <a href="#inicio">Inicio</a>
-        <a href="#" onclick="abrirModalGeneral()">Paquetes</a>
-        <a href="#destinos">Destinos</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#contacto">Contacto</a>
-    </nav>
-</header>
-
-<section class="hero" id="inicio">
-    <div>
-        <h1>Viaja sin límites</h1>
-        <p>Descubre el mundo</p>
-        <a href="#" onclick="abrirModalGeneral()" class="btn">Explorar paquetes</a>
-    </div>
-</section>
-
-<section class="section oculto" id="destinos">
-    <h2 class="titulo">Destinos</h2>
-    <div class="grid" id="contenedor-destinos"></div>
-</section>
-
-<section class="section oculto" id="servicios">
-    <h2 class="titulo">Servicios</h2>
-    <div class="grid" id="contenedor-servicios"></div>
-</section>
-
-<section class="section oculto" id="contacto">
-    <h2 class="titulo">Contacto</h2>
-
-    <div class="contacto">
-        <p>📞 912139525</p>
-        <a href="https://wa.me/51912139525" class="btn">WhatsApp</a>
-    </div>
-</section>
-
-<footer>
-    <p>Agencia Elimar</p>
-</footer>
-
-<a href="https://wa.me/51912139525" class="whatsapp">💬</a>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-    <div class="modal-box" id="modal-box"></div>
-</div>
-
-<script src="data.js"></script>
-
-<script>
+import { destinos, servicios, paquetes } from './data.js';
 
 /* DESTINOS */
-var contDestinos = document.getElementById("contenedor-destinos");
+const contDestinos = document.getElementById("contenedor-destinos");
 
-destinos.forEach(function(d){
+destinos.forEach(d => {
     contDestinos.innerHTML += `
         <div class="card">
             <img src="${d.imagen}">
             <div class="card-content">
                 <h3>${d.titulo}</h3>
                 <p>${d.descripcion}</p>
+
+                <!-- SOLO CAMBIÉ ESTO -->
+                <button class="btn" onclick="abrirDetalle('${d.titulo}')">
+                   Consultar
+                </button>
             </div>
         </div>
     `;
 });
 
 /* SERVICIOS */
-var contServicios = document.getElementById("contenedor-servicios");
+const contServicios = document.getElementById("contenedor-servicios");
 
-servicios.forEach(function(s){
+servicios.forEach(s => {
     contServicios.innerHTML += `
         <div class="card">
             <div class="card-content">
@@ -95,68 +36,81 @@ servicios.forEach(function(s){
     `;
 });
 
-/* MODAL PAQUETES */
-function abrirModalGeneral(){
+/* MODAL */
+window.abrirDetalle = function(titulo){
 
-    var modal = document.getElementById("modal");
-    var box = document.getElementById("modal-box");
+    const modal = document.getElementById("modal");
+    const box = document.getElementById("modal-box");
 
-    var contenido = "";
+    const paquete = paquetes.find(p => p.titulo === titulo);
 
-    paquetes.forEach(function(p){
+    if(!paquete){
+        box.innerHTML = "<p>No hay información disponible</p>";
+        modal.style.display = "flex";
+        return;
+    }
 
-        var galeria = "";
-        p.galeria.forEach(function(img){
+    let galeria = "";
+    if(paquete.galeria){
+        paquete.galeria.forEach(img => {
             galeria += `<img src="${img}">`;
         });
+    }
 
-        contenido += `
-            <div style="margin-bottom:30px;">
-                <h2>${p.titulo}</h2>
-                <img src="${p.imagen}">
-                <p>${p.descripcion}</p>
-                <h3 style="color:#5b21b6;">${p.precio}</h3>
+    box.innerHTML = `
+        <h2>${paquete.titulo}</h2>
+        <img src="${paquete.imagen}">
+        <p>${paquete.descripcion}</p>
 
-                <p><b>🕒 Horarios:</b> ${p.horarios}</p>
-                <p><b>📦 Plan:</b> ${p.plan}</p>
-                <p><b>⭐ Opiniones:</b> ${p.opiniones}</p>
+        <h3 style="color:#5b21b6;">${paquete.precio}</h3>
 
-                <h4>📸 Más imágenes</h4>
-                ${galeria}
+        <p><b>🕒 Horarios:</b> ${paquete.horarios}</p>
+        <p><b>📦 Plan:</b> ${paquete.plan}</p>
+        <p><b>⭐ Opiniones:</b> ${paquete.opiniones}</p>
 
-                <a href="https://wa.me/51912139525?text=Hola quiero ${encodeURIComponent(p.titulo)}" 
-                   class="btn" target="_blank">
-                   Reservar
-                </a>
-            </div>
-        `;
-    });
+        ${galeria}
 
-    box.innerHTML = contenido;
+        <a href="https://wa.me/51912139525?text=Hola,%20quiero%20el%20paquete%20${encodeURIComponent(paquete.titulo)}" 
+           class="btn" target="_blank">
+           Reservar por WhatsApp
+        </a>
+    `;
+
     modal.style.display = "flex";
-}
+};
 
-/* CERRAR MODAL */
-document.addEventListener("click", function(e){
+/* CERRAR */
+document.addEventListener("click", (e)=>{
     if(e.target.id === "modal"){
         document.getElementById("modal").style.display = "none";
     }
 });
 
-/* MENU */
-var toggle = document.getElementById("menu-toggle");
-var menu = document.getElementById("menu");
+/* TU JS ORIGINAL */
+const elementos = document.querySelectorAll('.oculto');
 
-toggle.addEventListener("click",function(){
+window.addEventListener('scroll',()=>{
+    elementos.forEach(el=>{
+        if(el.getBoundingClientRect().top < window.innerHeight - 100){
+            el.classList.add('visible');
+        }
+    });
+});
+
+const toggle = document.getElementById("menu-toggle");
+const menu = document.getElementById("menu");
+
+toggle.addEventListener("click",()=>{
     menu.classList.toggle("active");
 });
 
-/* ANIMACION */
-window.addEventListener("load",function(){
+window.addEventListener("load",()=>{
     document.body.classList.add("visible");
 });
 
 </script>
 
-</body>
-</html>
+<!-- AGREGA ESTO ANTES DE </body> -->
+<div id="modal" class="modal">
+    <div class="modal-box" id="modal-box"></div>
+</div>
