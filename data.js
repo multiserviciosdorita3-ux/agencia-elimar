@@ -1,15 +1,24 @@
 var destinos = [
     {
         titulo: "Europa",
-        descripcion: "Viajes culturales por Europa",
+        descripcion: "Viajes culturales",
         imagen: "https://images.unsplash.com/photo-1501785888041-af3ef285b470"
+    },
+    {
+        titulo: "Caribe",
+        descripcion: "Playas paradisíacas",
+        imagen: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
     }
 ];
 
 var servicios = [
     {
         titulo: "Paquetes turísticos",
-        descripcion: "Incluye hotel, transporte y guía"
+        descripcion: "Todo incluido"
+    },
+    {
+        titulo: "Asesoría de viaje",
+        descripcion: "Planificación personalizada"
     }
 ];
 
